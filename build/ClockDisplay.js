@@ -21,16 +21,8 @@ export default class ClockDisplay {
         this.updateDisplay();
     }
     updateDisplay() {
-        let displayString = '';
-        if (this.hours < 10) {
-            displayString += '0';
-        }
-        displayString += `${this.hours}:`;
-        if (this.minutes < 10) {
-            displayString += '0';
-        }
-        displayString += this.minutes;
-        this.output.innerText = displayString;
+        let defaultNumber = '0';
+        this.output.innerText = `${this.hours < 10 ? defaultNumber + this.hours : this.hours} : ${this.minutes < 10 ? defaultNumber + this.minutes : this.minutes}`;
     }
 }
 //# sourceMappingURL=ClockDisplay.js.map
