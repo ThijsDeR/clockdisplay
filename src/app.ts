@@ -1,15 +1,14 @@
 import ClockDisplay from './ClockDisplay.js';
-
 console.log('Javascript is working!');
 
 // Add EventListener to load the game whenever the browser is ready
 window.addEventListener('load', () => {
   console.log('Handling the Load event');
   // Get the relevant DOM elements
-  const outputHTMLElement = document.getElementById('output') as HTMLElement;
+  const outputHTMLElement = document.getElementById('output') as HTMLSpanElement;
   const hoursInput = document.getElementById('hoursInput') as HTMLInputElement;
   const minutesInput = document.getElementById('minutesInput') as HTMLInputElement;
-
+  const secondsInput = document.getElementById('secondsInput') as HTMLInputElement;
   // Create the clock
   const clock = new ClockDisplay(outputHTMLElement);
 
@@ -21,6 +20,10 @@ window.addEventListener('load', () => {
 
   document.getElementById('setTime').addEventListener('click', () => {
     console.log('User clicked setTime button');
-    clock.setTime(hoursInput.value, minutesInput.value);
+    clock.setTime(hoursInput.value, minutesInput.value, secondsInput.value);
   });
+
+  document.getElementById('toggleTimeBtn').addEventListener('click', () => {
+    clock.toggleDisplay()
+  })
 });

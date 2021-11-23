@@ -1,4 +1,5 @@
 import NumberDisplay from './NumberDisplay.js';
+import Ticker from './Ticker.js';
 
 /**
  * The ClockDisplay class implements a digital clock display for a
@@ -17,7 +18,11 @@ export default class ClockDisplay {
 
   private minutes : NumberDisplay;
 
-  private output: HTMLElement;
+  private seconds : NumberDisplay
+
+  private output : HTMLElement;
+
+  private ticker : Ticker;
 
   /**
    * Construct a new ClockDisplay instance
@@ -29,6 +34,10 @@ export default class ClockDisplay {
     this.output = output;
     this.hours = new NumberDisplay(24);
     this.minutes = new NumberDisplay(60);
+    this.seconds = new NumberDisplay(60)
+    this.ticker = new Ticker(() => {
+      this.timeTick()
+    }, 1000)
     this.updateDisplay();
   }
 
@@ -37,9 +46,12 @@ export default class ClockDisplay {
    * go one minute forward.
    */
   public timeTick(): void {
-    this.minutes.increment();
-    if (this.minutes.getValue() === 0) {
-      this.hours.increment();
+    this.seconds.increment()
+    if (this.seconds.getValue() === 0){
+      this.minutes.increment();
+      if (this.minutes.getValue() === 0) {
+        this.hours.increment();
+      }
     }
     this.updateDisplay();
   }
@@ -50,19 +62,25 @@ export default class ClockDisplay {
    * @param hours the Hours value as a `string`
    * @param minutes the Minutes value as a `string`
    */
-  public setTime(hours: string, minutes: string): void {
+  public setTime(hours: string, minutes: string, seconds: string): void {
     // Try to update the hours value
     this.hours.setStringValue(hours);
     // Try to update the minutes value
     this.minutes.setStringValue(minutes);
+
+    this.hours.setStringValue(seconds)
 
     // Update the display
     this.updateDisplay();
   }
 
   private updateDisplay() {
-    const displayString = `${this.hours.getStringValue()}:${this.minutes.getStringValue()}`;
-
+    const displayString = `${this.hours.getStringValue()}:${this.minutes.getStringValue()}:${this.seconds.getStringValue()}`;
+    
     this.output.innerText = displayString;
+  }
+
+  public toggleDisplay() {
+    this.ticker.toggleRunning()
   }
 }
